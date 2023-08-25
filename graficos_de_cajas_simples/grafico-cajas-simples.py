@@ -1,7 +1,9 @@
+import pandas as pd
 import matplotlib.pyplot as plt
 from io import StringIO
-import pandas as pd  
-# Creación del DataFrame a partir de los datos proporcionados
+
+
+# Datos
 data_string = """ 
 n,mes,y
 1,2011-01,112
@@ -150,16 +152,20 @@ n,mes,y
 144,2022-12,432
 """
 
+# Convertimos la cadena de texto a un DataFrame
+data_df = pd.read_csv(StringIO(data_string), parse_dates=['mes'], dayfirst=True)
+data_df.set_index('mes', inplace=True)
 
-data_df = pd.read_csv(StringIO(data_string), parse_dates=['mes'], index_col='mes')
-data_df.head()
-# Gráfico de la serie de tiempo
-plt.figure(figsize=(12, 6))
-plt.plot(data_df['y'])
-plt.title('Gráfico de la Serie de Tiempo')
-plt.xlabel('Fecha')
+# Agregando una columna de 'Año' al DataFrame
+data_df['Año'] = data_df.index.year
+
+# Boxplot agrupado por Año
+plt.figure(figsize=(14, 6))
+data_df.boxplot(column='y', by='Año')
+plt.title('Boxplot Agregado por Año')
+plt.suptitle('')  # Eliminar el título automático generado por pandas
+plt.xlabel('Año')
 plt.ylabel('Valor')
 plt.grid(True)
 plt.tight_layout()
 plt.show()
-
