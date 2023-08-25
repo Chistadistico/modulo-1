@@ -1,2 +1,2 @@
-# modulo-1
- Modelos de Pronosticos
+## Modulo nro. 1
+Análisis exploratorio de series de tiempo
